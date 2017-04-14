@@ -1,0 +1,49 @@
+  
+
+
+
+//import Serial communication library
+import processing.serial.*;
+//init variables
+Serial Port;
+
+float LIGHT;
+
+void setup() {
+  size(900, 560); 
+  stroke(255);
+  noFill();
+
+ 
+  println("Available Serial Ports:");
+  println(Serial.list());
+Port = new Serial(this, "/dev/cu.usbmodem1411", 9600);
+}
+
+void draw() {
+  
+while (Port.available() > 0) {
+
+LIGHT = Port.read();
+//LIGHT=map(LIGHT,80,255,0,255); //Mapping of the values to fit better on the purpose
+ }
+  background(127-(LIGHT/2),205-(2*LIGHT/3),219-(2*LIGHT/3)); //background changing based on the light sensor
+  println(LIGHT);
+
+ 
+ smooth();
+ noFill();
+ stroke(2);
+ beginShape();
+ vertex(width/2,height);
+
+  
+ bezierVertex((width/2)+(LIGHT/2)*(LIGHT/255),0+(LIGHT/2)*(LIGHT/255),(width/2)-(LIGHT/2)*(LIGHT/255),0-(LIGHT/2)*(LIGHT/255),(width/2)-LIGHT*(LIGHT/255),30+(LIGHT*(LIGHT/255)));
+ endShape();
+
+ 
+   fill(250,230,0);
+ ellipse((width/2)-LIGHT*(LIGHT/255),30+(LIGHT*(LIGHT/255)),30,30);
+ 
+
+ }
