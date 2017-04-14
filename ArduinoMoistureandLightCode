@@ -1,0 +1,109 @@
+//definition of the integers 
+        
+int led1 = 4;       //LED GREEN
+int led2 = 5;       //LED GREEN
+int led3 = 6;       //LED GREEN
+int led4 = 7;        //LED YELLOW
+int led5 = 8;       //LED RED
+
+int moistureSensor = A0;    //definition of the moisture Sensor
+int lightSensor = A2;       //definition of the light Sensor
+int LIGHTVAL;
+int MOISTUREVAL;
+int sensorValue;
+int motor = 9;     //Must be PWM pin, goes to motor (gate)     
+
+void setup() {
+    Serial.begin(9600);
+    
+  // put your setup code here, to run once:
+
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
+  pinMode(led3, OUTPUT);
+  pinMode(led4, OUTPUT);
+  pinMode(led5, OUTPUT);
+  pinMode(motor, OUTPUT);
+}
+
+void loop() {
+
+
+LIGHTVAL=analogRead(lightSensor); // read the values from light sensor and name it LIGHTVAL  
+MOISTUREVAL=analogRead(moistureSensor); // read the values from moisture sensor and name it MOISTUREVAL+
+sensorValue=analogRead(moistureSensor);
+  // Serial Begin so we can see the data from the mosture sensor in our serial input window. 
+/*
+Serial.print("Light coming: ");
+Serial.println(LIGHTVAL);
+Serial.print("Humidity of the moisture: ");
+Serial.println(MOISTUREVAL);
+*/
+
+//delay(1000);
+
+
+ //start of the range of values for the sensor
+
+ if (sensorValue >= 750)   // this is the light effect if the moisture is completely wet
+ {
+ digitalWrite(led1, HIGH);
+ digitalWrite(led2, HIGH);
+ digitalWrite(led3, HIGH);
+ digitalWrite(led4, LOW);
+ digitalWrite(led5, LOW);
+ analogWrite(motor,0);   // analogWrite(motor, intensity);  //Writes PWM to the motor   
+ delay(1000); //Making this too small can damage the motor 
+    
+}
+else if (sensorValue >= 550  && sensorValue < 750)    // this is the light effect if the moisture is almost completely wet
+ {
+ digitalWrite(led1, LOW);
+ digitalWrite(led2, HIGH);
+ digitalWrite(led3, HIGH);
+ digitalWrite(led4, HIGH);
+ digitalWrite(led5, LOW);
+ analogWrite(motor,0);   // analogWrite(motor, intensity);  //Writes PWM to the motor   
+ delay(1000); //Making this too small can damage the motor 
+}  
+else if (sensorValue >= 360 && sensorValue < 550)    // this is the light effect if the moisture is a little wet
+ {
+ digitalWrite(led1, LOW);
+ digitalWrite(led2, LOW);
+ digitalWrite(led3, HIGH);
+ digitalWrite(led4, HIGH);
+ digitalWrite(led5, HIGH);
+  analogWrite(motor,210);  // analogWrite(motor, intensity);  //Writes PWM to the motor   
+  delay(1000); //Making this too small can damage the motor 
+}    
+else if (sensorValue >= 150 && sensorValue < 360)    // this is the light effect if the moisture is almost dry
+ {
+ digitalWrite(led1, LOW);
+ digitalWrite(led2, LOW);
+ digitalWrite(led3, LOW);
+ digitalWrite(led4, HIGH);
+ digitalWrite(led5, HIGH);
+  analogWrite(motor,230);    // analogWrite(motor, intensity);  //Writes PWM to the motor   
+  delay(1000); //Making this too small can damage the motor 
+}
+else if (sensorValue >= 0 && sensorValue < 150)     // this is the light effect if the moisture is completely dry
+ {
+ digitalWrite(led1, LOW);
+ digitalWrite(led2, LOW);
+ digitalWrite(led3, LOW);
+ digitalWrite(led4, LOW);
+ digitalWrite(led5, HIGH);
+  analogWrite(motor,255);    // analogWrite(motor, intensity);  //Writes PWM to the motor   
+  delay(1000); //Making this too small can damage the motor 
+}
+  delay(100);        // delay 1 second between reads
+
+
+
+
+
+//Serial.write( map(MOISTUREVAL, 0,1023,0,255));
+Serial.write( map(LIGHTVAL, 200,1023,0,255));
+
+
+}
