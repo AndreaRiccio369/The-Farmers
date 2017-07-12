@@ -10,7 +10,6 @@ int moistureSensor = A0;    //definition of the moisture Sensor
 int lightSensor = A2;       //definition of the light Sensor
 int LIGHTVAL;
 int MOISTUREVAL;
-int sensorValue;
 int motor = 9;     //Must be PWM pin, goes to motor (gate)     
 
 void setup() {
@@ -31,7 +30,6 @@ void loop() {
 
 LIGHTVAL=analogRead(lightSensor); // read the values from light sensor and name it LIGHTVAL  
 MOISTUREVAL=analogRead(moistureSensor); // read the values from moisture sensor and name it MOISTUREVAL+
-sensorValue=analogRead(moistureSensor);
   // Serial Begin so we can see the data from the mosture sensor in our serial input window. 
 /*
 Serial.print("Light coming: ");
@@ -45,7 +43,7 @@ Serial.println(MOISTUREVAL);
 
  //start of the range of values for the sensor
 
- if (sensorValue >= 750)   // this is the light effect if the moisture is completely wet
+ if (MOISTUREVAL >= 750)   // this is the light effect if the moisture is completely wet
  {
  digitalWrite(led1, HIGH);
  digitalWrite(led2, HIGH);
@@ -56,7 +54,7 @@ Serial.println(MOISTUREVAL);
  delay(1000); //Making this too small can damage the motor 
     
 }
-else if (sensorValue >= 550  && sensorValue < 750)    // this is the light effect if the moisture is almost completely wet
+else if (MOISTUREVAL >= 550  && MOISTUREVAL < 750)    // this is the light effect if the moisture is almost completely wet
  {
  digitalWrite(led1, LOW);
  digitalWrite(led2, HIGH);
@@ -66,7 +64,7 @@ else if (sensorValue >= 550  && sensorValue < 750)    // this is the light effec
  analogWrite(motor,0);   // analogWrite(motor, intensity);  //Writes PWM to the motor   
  delay(1000); //Making this too small can damage the motor 
 }  
-else if (sensorValue >= 360 && sensorValue < 550)    // this is the light effect if the moisture is a little wet
+else if (MOISTUREVAL >= 360 && MOISTUREVAL < 550)    // this is the light effect if the moisture is a little wet
  {
  digitalWrite(led1, LOW);
  digitalWrite(led2, LOW);
@@ -76,7 +74,7 @@ else if (sensorValue >= 360 && sensorValue < 550)    // this is the light effect
   analogWrite(motor,210);  // analogWrite(motor, intensity);  //Writes PWM to the motor   
   delay(1000); //Making this too small can damage the motor 
 }    
-else if (sensorValue >= 150 && sensorValue < 360)    // this is the light effect if the moisture is almost dry
+else if (MOISTUREVAL >= 150 && MOISTUREVAL < 360)    // this is the light effect if the moisture is almost dry
  {
  digitalWrite(led1, LOW);
  digitalWrite(led2, LOW);
@@ -86,7 +84,7 @@ else if (sensorValue >= 150 && sensorValue < 360)    // this is the light effect
   analogWrite(motor,230);    // analogWrite(motor, intensity);  //Writes PWM to the motor   
   delay(1000); //Making this too small can damage the motor 
 }
-else if (sensorValue >= 0 && sensorValue < 150)     // this is the light effect if the moisture is completely dry
+else if (MOISTUREVAL >= 0 && MOISTUREVAL < 150)     // this is the light effect if the moisture is completely dry
  {
  digitalWrite(led1, LOW);
  digitalWrite(led2, LOW);
